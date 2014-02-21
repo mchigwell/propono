@@ -12,9 +12,9 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require "propono"
 
+AWS.stub!
 class Minitest::Test
   def setup
-    Fog.mock!
     Propono.config do |config|
       config.access_key = "test-access-key"
       config.secret_key = "test-secret-key"
@@ -28,22 +28,25 @@ class Minitest::Test
   end
 end
 
-require 'fog'
-class Fog::AWS::SNS::Mock
-  def create_topic(*args)
-    foo = Object.new
-    class << foo
-      def body
-        {"TopicArn" => "FoobarFromTheMock"}
-      end
-    end
-    foo
+Struct.new("Topic", :arn)
+Struct.new("Queue", :url)
+
+class AWS::SNS::TopicCollection
+  def create(*args)
+    Struct::Topic.new("FoobarFromTheMock")
   end
 
-  def subscribe(topic_arn, arn_or_url, type)
+  #def subscribe(topic_arn, arn_or_url, type)
+  #end
+end
+
+class AWS::SQS::QueueCollection
+  def create(*args)
+    Struct::Queue.new("FoobarFromTheMock")
   end
 end
 
+=begin
 class Fog::AWS::SQS::Mock
   def create_queue(*args)
   end
@@ -56,3 +59,4 @@ Fog::AWS::SQS::Mock::QueueArn = 'FoobarArn'
 data = {'Attributes' => {"QueueArn" => Fog::AWS::SQS::Mock::QueueArn}}
 queues = Fog::AWS::SQS::Mock.data["us-east-1"]["test-access-key"][:queues]
 queues[Fog::AWS::SQS::Mock::QueueUrl] = data
+=end

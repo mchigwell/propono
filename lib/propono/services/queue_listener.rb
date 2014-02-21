@@ -31,10 +31,10 @@ module Propono
       else
         messages.each { |msg| process_raw_message(msg) }
       end
-    rescue Excon::Errors::Forbidden
-      Propono.config.logger.error "Forbidden error caught and re-raised. #{queue_url}"
-      Propono.config.logger.error $!
-      raise $!
+    #rescue Excon::Errors::Forbidden
+    #  Propono.config.logger.error "Forbidden error caught and re-raised. #{queue_url}"
+    #  Propono.config.logger.error $!
+    #  raise $!
     rescue
       Propono.config.logger.error "Unexpected error reading from queue #{queue_url}"
       Propono.config.logger.error $!, $!.backtrace

@@ -6,7 +6,7 @@ require 'propono/version'
 Gem::Specification.new do |spec|
   spec.name          = "propono"
   spec.version       = Propono::VERSION
-  spec.authors       = ["MalcyL", "iHiD"]
+  spec.authors       = ["MalcyL", "iHiD", "ccare"]
   spec.email         = ["malcolm@landonsonline.me.uk", "jeremy@meducation.net"]
   spec.description   = %q{Pub / Sub Library using Amazon Web Services}
   spec.summary       = %q{General purpose pub/sub library built on top of AWS SNS and SQS}
@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "fog", "~> 1.15.0"
+  spec.add_dependency "aws-sdk"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
